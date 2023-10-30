@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WorldApi.Data;
+using WorldApi.DTO.Country;
 using WorldApi.Models;
 
 namespace WorldApi.Controllers
@@ -17,10 +18,15 @@ namespace WorldApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Country> createCountry([FromBody] Country country)
+        public ActionResult<createCountryDto> createCountry([FromBody] createCountryDto countrydto)
         {
-           applicationDbContext.Countries.Add(country);
-           applicationDbContext.SaveChanges();
+            Country country = new Country();
+            country.Name = countrydto.Name;
+            country.ShortName = countrydto.ShortName;
+            country.CountryCode= countrydto.CountryCode;
+
+            applicationDbContext.Countries.Add(country);
+            applicationDbContext.SaveChanges();
             return Ok(country);
         }
 
